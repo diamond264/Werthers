@@ -1,4 +1,9 @@
 import express from 'express';
+import user from './user';
+import friend_edge from './friend_edge';
+import battle_edge from './battle_edge';
+import group_edge from './group_edge';
+import consumption from './consumption';
 
 const router = express.Router();
 
