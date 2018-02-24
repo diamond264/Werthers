@@ -1,32 +1,69 @@
 import express from 'express';
-import user from '../model';
+import { User } from '../model';
 
 const router = express.Router();
 
-router.get('/', function(req, res){
-		console.log("request to /api/user");
-		user.find(function(err, users){
-			if (err) return res.status(500).send({error: 'database failure'});
-			res.json(users);
-		})
-	})
+router.post('/signup', (req, res) => {
+    let { email, name, hash, age, gender, budget, job, password } = req.body;
+    User.findOne({ email }, (err, exist) => {
+        if (err) throw err;
+        if (exist) {
+            return res.status(400).json({
+                error: "ALREADY_EXIST",
+                code: "0",
+                data: null
+            });
+        };
 
-router.post('/signup', function(req, res){
-		console.log("request to /api/signup");
+        let user = new User({ email, name, hash, age, gender,budget, job });
+        user.password = user.generateHash(password);
+        user.save((err) => {
+            if (err) throw err;
+            return res.json({ 
+                code: "success", 
+                data: null,
+                error: null
+            });
+        });
+    });
+});
 
-		user.findeOne({ email: req.body.email }, (err, exist) => {
-			if (err) return res.status(500).send({error: 'database failure'});
-			if (exist) {
-				return res.status(400).json({
-	                error: "ALREADY_EXIST",
-	                code: "0",
-	                data: null
-            	});
-			}
-		});
+router.post('/signin', (req, res) => {
+    let { email, password } = req.body;
+    User.findOne({ email }, (err, user) => {
+        if (err) throw err;
+        if (!user) {
+            return res.status(400).json({
+                //error: "LOGIN_FAILED",
+                code: "0",
+                data: null
+            });
+        };
+        if (!user.validateHash(password)) {
+            return res.status(400).json({
+                //error: "LOGIN_FAILED",
+                code: "0",
+                data: null
+            });
+        };
+        req.session.userInfo = {
+            _id: user._id,
+            email: user.email
+        };
+        return res.json({ 
+            code: "success",
+            data: null,
+        });
+    });
+});
 
-		var newuser = New user;
-		newuser.email = req.body.email;
-		newuser.name = req.body.name;
-		newuser.nickname = req.body.nickname;
-	})
+router.get('/all', function(req, res){
+  console.log("request to /api/user");
+  User.find(function(err, users){
+    if (err) return res.status(500).send({error: 'database failure'});
+    return res.json(users);
+  });
+});
+
+
+export default router;

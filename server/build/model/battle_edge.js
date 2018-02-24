@@ -18,4 +18,4 @@ var battleEdgeSchma = new Schema({
     created_at: Date,
     terminate_at: Date
 });
-exports.default = _mongoose2.default.model('battle_edge', battleEdgeSchma);
+exports.default = _mongoose2.default.model('BattleEdge', battleEdgeSchma);

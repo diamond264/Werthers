@@ -13,7 +13,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Schema = _mongoose2.default.Schema;
 
 var consumptionSchma = new Schema({
-    user: { type: Schema.Types.ObjectId, ref: 'User' },
+    email: String,
     big_category: String,
     small_category: String,
     store: String,
@@ -22,4 +22,4 @@ var consumptionSchma = new Schema({
     cache: String,
     name: String
 });
-exports.default = _mongoose2.default.model('consumption', consumptionSchma);
+exports.default = _mongoose2.default.model('Consumption', consumptionSchma);

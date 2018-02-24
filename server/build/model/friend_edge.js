@@ -18,4 +18,4 @@ var friendEdgeSchma = new Schema({
     status: String
 });
 
-exports.default = _mongoose2.default.model('friend_edge', friendEdgeSchma);
+exports.default = _mongoose2.default.model('FriendEdge', friendEdgeSchma);

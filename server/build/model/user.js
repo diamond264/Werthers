@@ -18,6 +18,7 @@ var Schema = _mongoose2.default.Schema;
 
 var userSchema = new Schema({
     name: String,
+    nickname: String,
     email: String,
     password: String,
     hash: String,

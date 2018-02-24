@@ -1,35 +1,52 @@
 'use strict';
 
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var multer = require('multer');
+var _express = require('express');
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+var _express2 = _interopRequireDefault(_express);
 
-var port = process.env.PORT || 8080;
+var _bodyParser = require('body-parser');
 
-app.set('views', __dirname + '/view');
-app.set('view engine', 'ejs');
-app.engine('html', require('ejs').renderFile);
+var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
-var db = mongoose.connection;
+var _mongoose = require('mongoose');
+
+var _mongoose2 = _interopRequireDefault(_mongoose);
+
+var _morgan = require('morgan');
+
+var _morgan2 = _interopRequireDefault(_morgan);
+
+var _route = require('./route');
+
+var _route2 = _interopRequireDefault(_route);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var app = (0, _express2.default)();
+var port = 3000;
+var devport = 4000;
+
+var db = _mongoose2.default.connection;
 db.on('error', console.error);
 db.once('open', function () {
   console.log("Connected to mongod server");
 });
 
-mongoose.connect('mongodb://localhost/Werthers');
+_mongoose2.default.connect('mongodb://localhost/Werthers');
 
-var Users = require('./model/user');
-var Consumptions = require('./model/consumption');
-var FriendEdges = require('./model/friend_edge');
-var GroupEdges = require('./model/group_edge');
-var BattleEdges = require('./model/battle_edge');
+app.use((0, _morgan2.default)('dev'));
+app.use(_bodyParser2.default.urlencoded({ extended: false }));
+app.use(_bodyParser2.default.json());
 
-var router = require('./route')(app, Users, Consumptions, FriendEdges, GroupEdges, BattleEdges);
+app.set('views', __dirname + '/view');
+app.set('view engine', 'ejs');
+app.engine('html', require('ejs').renderFile);
+
+app.use('/api', _route2.default);
+
+if (process.env.NODE_ENV == 'development') {
+  console.log('Server is running on development mode');
+}
 
 var server = app.listen(port, function () {
   console.log("Express server has started on port " + port);

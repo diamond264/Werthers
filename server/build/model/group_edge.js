@@ -23,4 +23,4 @@ var groupEdgeSchma = new Schema({
     terminate_at: Date
 });
 //default 값으로 널 줘야된다
-exports.default = _mongoose2.default.model('group_edge', groupEdgeSchma);
+exports.default = _mongoose2.default.model('GroupEdge', groupEdgeSchma);
