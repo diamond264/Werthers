@@ -12,7 +12,7 @@ router.get('/all', function(req, res){
 	})
 
 router.get('/:email', function(req, res){
-		console.log("request to /api/"+req.params.email+"consumption/all");
+		console.log("request to /api/consumption"+req.params.email);
 
 		User.findOne({ email: req.params.email }, (err, user) => {
 			if (err) return res.status(500).json({error: err});
@@ -20,6 +20,30 @@ router.get('/:email', function(req, res){
 		});
 
 		Consumption.find({ email: req.params.email }, (err, consumptions) => {
+			if (err) return res.status(500).json({error: err});
+			return res.json(consumptions);
+		});
+	})
+
+router.get('/:email/from/:start/to/:end', function(req, res){
+		console.log("request to /api/"+req.params.email+req.params.start+req.params.end);
+
+		let start_year = parseInt(req.params.start.substring(0,4))
+		let start_month = parseInt(req.params.start.substring(4,6))
+		let start_date = parseInt(req.params.start.substring(6,8))
+		let start_day = new Date(start_year, start_month, start_date)
+
+		let end_year = parseInt(req.params.end.substring(0,4))
+		let end_month = parseInt(req.params.end.substring(4,6))
+		let end_date = parseInt(req.params.end.substring(6,8))
+		let end_day = new Date(end_year, end_month, end_date)
+
+		User.findOne({email: req.body.email }, (err, user) => {
+			if (err) return res.status(500).json({error: err});
+			if (!user) return res.status(404).json({error: 'no such user exists'});
+		});
+
+		Consumption.find({ email: req.params.email, time: {$gte: start_day, $lt: end_day} }, (err, consumptions) => {
 			if (err) return res.status(500).json({error: err});
 			return res.json(consumptions);
 		});

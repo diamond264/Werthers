@@ -89,4 +89,12 @@ router.get('/all', function (req, res) {
     });
 });
 
+router.get('/:email', function (req, res) {
+    console.log("request to /api/user");
+    _model.User.findOne({ email: req.params.email }, function (err, users) {
+        if (err) return res.status(500).send({ error: 'database failure' });
+        return res.json(users);
+    });
+});
+
 exports.default = router;
