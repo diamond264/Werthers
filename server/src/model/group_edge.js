@@ -13,4 +13,4 @@ const groupEdgeSchma = new Schema({
     terminate_at: Date,
 });
 //default 값으로 널 줘야된다
-export default mongoose.model('group_edge', groupEdgeSchma);
+export default mongoose.model('GroupEdge', groupEdgeSchma);

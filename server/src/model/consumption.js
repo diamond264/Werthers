@@ -12,4 +12,4 @@ const consumptionSchma = new Schema({
     cache: String,
     name: String
 });
-export default mongoose.model('consumption', consumptionSchma);
+export default mongoose.model('Consumption', consumptionSchma);

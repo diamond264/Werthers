@@ -8,4 +8,4 @@ const battleEdgeSchma = new Schema({
     created_at: Date,
     terminate_at: Date,
 });
-export default mongoose.model('battle_edge', battleEdgeSchma);
+export default mongoose.model('BattleEdge', battleEdgeSchma);

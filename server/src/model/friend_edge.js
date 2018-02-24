@@ -8,4 +8,4 @@ const friendEdgeSchma = new Schema({
     status: String
 });
 
-export default mongoose.model('friend_edge', friendEdgeSchma);
+export default mongoose.model('FriendEdge', friendEdgeSchma);
