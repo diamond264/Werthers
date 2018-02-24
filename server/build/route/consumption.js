@@ -49,8 +49,6 @@ router.get('/:email/from/:start/to/:end', function (req, res) {
 	var end_date = parseInt(req.params.end.substring(6, 8));
 	var end_day = new Date(end_year, end_month, end_date);
 
-	console.log(start_day);
-
 	_model.User.findOne({ email: req.body.email }, function (err, user) {
 		if (err) return res.status(500).json({ error: err });
 		if (!user) return res.status(404).json({ error: 'no such user exists' });
