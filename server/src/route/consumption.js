@@ -52,7 +52,7 @@ router.get('/:email/from/:start/to/:end', function(req, res){
 router.post('/', function(req, res){
 		console.log("request to /api/consumption");
 
-		let { email, big_category, small_category, store, price, cache, name } = req.body;
+		let { email, big_category, small_category, store, price, cash, name } = req.body;
 		User.findOne({ email: req.body.email }, (err, user) => {
 			if (err) return res.status(500).send({error: 'database failure'});
 			if (!user) return res.status(400).json({
@@ -61,7 +61,7 @@ router.post('/', function(req, res){
                     data: null
                 });
 
-         	let consumption = new Consumption({ big_category, small_category, store, price, cache, name, email });
+         	let consumption = new Consumption({ big_category, small_category, store, price, cash, name, email });
          	consumption.time = new Date();
 
          	consumption.save(err => {

@@ -2,7 +2,7 @@ import express from 'express';
 import User from './user';
 // import FriendEdge from './friend_edge';
 // import BattleEdge from './battle_edge';
-// import GroupEdge from './group_edge';
+import GroupEdge from './group_edge';
 import Consumption from './consumption';
 
 const router = express.Router();
@@ -20,7 +20,7 @@ router.get('/api', function(req, res){
 router.use('/api/user', User);
 // router.use('/api/friend_edge', FriendEdge)
 // router.use('/api/battle_edge', BattleEdge)
-// router.use('/api/group_edge', GroupEdge)
+router.use('/api/group_edge', GroupEdge)
 router.use('/api/consumption', Consumption)
 
 export default router;

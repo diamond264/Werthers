@@ -9,7 +9,7 @@ const consumptionSchma = new Schema({
     store: String,
     time: Date,
     price: Number,
-    cache: String,
+    cash: String,
     name: String
 });
 export default mongoose.model('Consumption', consumptionSchma);
