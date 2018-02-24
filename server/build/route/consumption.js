@@ -14,7 +14,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var router = _express2.default.Router();
 
-router.get('/consumption', function (req, res) {
+router.get('/all', function (req, res) {
 	console.log("request to /api/consumption/all");
 	_model.Consumption.find(function (err, consumptions) {
 		if (err) return res.status(500).send({ error: 'database failure' });
@@ -22,7 +22,7 @@ router.get('/consumption', function (req, res) {
 	});
 });
 
-router.get('/:email/consumption', function (req, res) {
+router.get('/:email', function (req, res) {
 	console.log("request to /api/" + req.params.email + "consumption/all");
 
 	_model.User.findOne({ email: req.params.email }, function (err, user) {
@@ -37,10 +37,10 @@ router.get('/:email/consumption', function (req, res) {
 });
 
 router.post('/', function (req, res) {
-	console.log("request to /api/consumption/register");
+	console.log("request to /api/consumption");
 
 	var _req$body = req.body,
-	    user_id = _req$body.user_id,
+	    email = _req$body.email,
 	    big_category = _req$body.big_category,
 	    small_category = _req$body.small_category,
 	    store = _req$body.store,
@@ -48,7 +48,7 @@ router.post('/', function (req, res) {
 	    cache = _req$body.cache,
 	    name = _req$body.name;
 
-	_model.User.findById(user_id, function (err, user) {
+	_model.User.findOne({ email: req.body.email }, function (err, user) {
 		if (err) return res.status(500).send({ error: 'database failure' });
 		if (!user) return res.status(400).json({
 			//error: "USER_NOT_EXIST",
@@ -56,8 +56,7 @@ router.post('/', function (req, res) {
 			data: null
 		});
 
-		var consumption = new _model.Consumption({ big_category: big_category, small_category: small_category, store: store, price: price, cache: cache, name: name });
-		consumption.user = user._id;
+		var consumption = new _model.Consumption({ big_category: big_category, small_category: small_category, store: store, price: price, cache: cache, name: name, email: email });
 		consumption.time = new Date();
 
 		consumption.save(function (err) {

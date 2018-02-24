@@ -42,7 +42,7 @@ app.set('views', __dirname + '/view');
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 
-app.use('/api', _route2.default);
+app.use('/', _route2.default);
 
 if (process.env.NODE_ENV == 'development') {
   console.log('Server is running on development mode');

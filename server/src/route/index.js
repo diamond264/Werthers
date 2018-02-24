@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get('/', function(req, res){
 		console.log("request to /");
-		res.render("index.html");
+		res.render("./../view/index.html");
 	})
 
 router.get('/api', function(req, res){

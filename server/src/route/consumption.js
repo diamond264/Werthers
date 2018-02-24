@@ -3,7 +3,7 @@ import { Consumption, User } from '../model';
 
 const router = express.Router();
 
-router.get('/consumption', function(req, res){
+router.get('/all', function(req, res){
 		console.log("request to /api/consumption/all");
 		Consumption.find(function(err, consumptions){
 			if (err) return res.status(500).send({error: 'database failure'});
@@ -11,7 +11,7 @@ router.get('/consumption', function(req, res){
 		})
 	})
 
-router.get('/:email/consumption', function(req, res){
+router.get('/:email', function(req, res){
 		console.log("request to /api/"+req.params.email+"consumption/all");
 
 		User.findOne({ email: req.params.email }, (err, user) => {
@@ -26,10 +26,10 @@ router.get('/:email/consumption', function(req, res){
 	})
 
 router.post('/', function(req, res){
-		console.log("request to /api/consumption/register");
+		console.log("request to /api/consumption");
 
-		let { user_id, big_category, small_category, store, price, cache, name } = req.body;
-		User.findById(user_id, (err, user) => {
+		let { email, big_category, small_category, store, price, cache, name } = req.body;
+		User.findOne({ email: req.body.email }, (err, user) => {
 			if (err) return res.status(500).send({error: 'database failure'});
 			if (!user) return res.status(400).json({
                     //error: "USER_NOT_EXIST",
@@ -37,8 +37,7 @@ router.post('/', function(req, res){
                     data: null
                 });
 
-         	let consumption = new Consumption({ big_category, small_category, store, price, cache, name });
-         	consumption.user = user._id;
+         	let consumption = new Consumption({ big_category, small_category, store, price, cache, name, email });
          	consumption.time = new Date();
 
          	consumption.save(err => {

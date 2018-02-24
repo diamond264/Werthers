@@ -18,16 +18,17 @@ router.post('/signup', function (req, res) {
     var _req$body = req.body,
         email = _req$body.email,
         name = _req$body.name,
-        hash = _req$body.hash,
+        nickname = _req$body.nickname,
         age = _req$body.age,
         gender = _req$body.gender,
         budget = _req$body.budget,
         job = _req$body.job,
         password = _req$body.password;
 
-    _model.User.findOne({ email: email }, function (err, exist) {
+    _model.User.findOne({ email: req.body.email }, function (err, exist) {
         if (err) throw err;
         if (exist) {
+            console.log(req.body.email);
             return res.status(400).json({
                 error: "ALREADY_EXIST",
                 code: "0",
@@ -35,10 +36,10 @@ router.post('/signup', function (req, res) {
             });
         };
 
-        var user = new _model.User({ email: email, name: name, hash: hash, age: age, gender: gender, budget: budget, job: job });
-        user.password = user.generateHash(password);
+        var user = new _model.User({ email: email, name: name, nickname: nickname, age: age, gender: gender, budget: budget, job: job, password: password });
         user.save(function (err) {
             if (err) throw err;
+            console.log(user.email);
             return res.json({
                 code: "success",
                 data: null,

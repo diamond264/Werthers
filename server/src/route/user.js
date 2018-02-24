@@ -4,10 +4,11 @@ import { User } from '../model';
 const router = express.Router();
 
 router.post('/signup', (req, res) => {
-    let { email, name, hash, age, gender, budget, job, password } = req.body;
-    User.findOne({ email }, (err, exist) => {
+    let { email, name, nickname, age, gender, budget, job, password } = req.body;
+    User.findOne({ email: req.body.email }, (err, exist) => {
         if (err) throw err;
         if (exist) {
+        	console.log(req.body.email);
             return res.status(400).json({
                 error: "ALREADY_EXIST",
                 code: "0",
@@ -15,10 +16,10 @@ router.post('/signup', (req, res) => {
             });
         };
 
-        let user = new User({ email, name, hash, age, gender,budget, job });
-        user.password = user.generateHash(password);
+        let user = new User({ email, name, nickname, age, gender,budget, job, password });
         user.save((err) => {
             if (err) throw err;
+            console.log(user.email);
             return res.json({ 
                 code: "success", 
                 data: null,

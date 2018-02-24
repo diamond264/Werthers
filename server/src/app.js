@@ -24,12 +24,12 @@ app.set('views', __dirname + '/view');
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 
-app.use('/api', api)
+app.use('/', api)
 
 if(process.env.NODE_ENV == 'development') {
     console.log('Server is running on development mode');
 }
 
 let server = app.listen(port, () => {
-	console.log("Express server has started on port " + port)
+	console.log("Express server has started on port " + port);
 });
